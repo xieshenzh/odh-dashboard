@@ -101,7 +101,7 @@ export const mockNotebookK8sResource = ({
                   },
                 ],
                 image: 'test-imagestream:1.2',
-                imagePullPolicy: 'Always',
+                imagePullPolicy: 'IfNotPresent',
                 livenessProbe: {
                   failureThreshold: 3,
                   httpGet: {
@@ -156,7 +156,7 @@ export const mockNotebookK8sResource = ({
                 ],
                 image:
                   'registry.redhat.io/openshift4/ose-oauth-proxy@sha256:4bef31eb993feb6f1096b51b4876c65a6fb1f4401fee97fa4f4542b6b7c9bc46',
-                imagePullPolicy: 'Always',
+                imagePullPolicy: 'IfNotPresent',
                 livenessProbe: {
                   failureThreshold: 3,
                   httpGet: {

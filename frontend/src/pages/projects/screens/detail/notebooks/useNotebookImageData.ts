@@ -14,7 +14,10 @@ export const getNotebookImageData = (
   const container: PodContainer | undefined = notebook.spec.template.spec.containers.find(
     (currentContainer) => currentContainer.name === notebook.metadata.name,
   );
-  const imageTag = container?.image.split('/').at(-1)?.split(':');
+
+  const imageStreamTagAndName =
+    container?.env?.find((i) => i?.name === 'JUPYTER_IMAGE')?.value ?? '';
+  const imageTag = imageStreamTagAndName.toString().split('/').at(-1)?.split(':');
 
   // if image could not be parsed from the container, consider it deleted because the image tag is invalid
   if (!imageTag || imageTag.length < 2 || !container) {

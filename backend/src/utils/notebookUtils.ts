@@ -162,7 +162,6 @@ export const assembleNotebook = async (
 
   const notebookSize = getNotebookSize(notebookSizeName);
 
-  let imageUrl = ``;
   let imageSelection = ``;
 
   try {
@@ -170,7 +169,6 @@ export const assembleNotebook = async (
 
     const selectedImage = getImageTag(image, imageTagName);
 
-    imageUrl = `${selectedImage.image?.dockerImageRepo}:${selectedImage.tag?.name}`;
     imageSelection = `${selectedImage.image?.name}:${selectedImage.tag?.name}`;
   } catch (e) {
     fastify.log.error(`Error getting the image for ${imageName}:${imageTagName}`);
@@ -273,6 +271,7 @@ export const assembleNotebook = async (
         'kubeflow-resource-stopped': null,
         'opendatahub.io/accelerator-name':
           acceleratorProfile.acceleratorProfile?.metadata.name || '',
+        'image.openshift.io/triggers': `[{"from":{"kind":"ImageStreamTag","name":"${imageSelection}", "namespace":"${namespace}"},"fieldPath":"spec.template.spec.containers[?(@.name==\\"${name}\\")].image"}]`,
       },
       name: name,
       namespace: namespace,
@@ -284,8 +283,8 @@ export const assembleNotebook = async (
           enableServiceLinks: false,
           containers: [
             {
-              image: imageUrl,
-              imagePullPolicy: 'Always',
+              image: name,
+              imagePullPolicy: 'IfNotPresent',
               workingDir: MOUNT_PATH,
               name: name,
               env: [
@@ -300,7 +299,7 @@ export const assembleNotebook = async (
                 },
                 {
                   name: 'JUPYTER_IMAGE',
-                  value: imageUrl,
+                  value: imageSelection,
                 },
                 ...configMapEnvs,
                 ...secretEnvs,

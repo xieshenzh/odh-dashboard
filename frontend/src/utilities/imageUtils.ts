@@ -139,8 +139,14 @@ export const getDescriptionForTag = (imageTag?: ImageTagInfo): string => {
   return softwareDescriptions.join(', ');
 };
 
-export const getImageTagByContainer = (images: ImageInfo[], container?: PodContainer): ImageTag => {
-  const imageTag = container?.image.split('/').at(-1)?.split(':');
+export const getImageAndTagByContainerEnvJupyterImage = (
+  images: ImageInfo[],
+  container?: PodContainer,
+): ImageTag => {
+  const imageStreamTagAndName =
+    container?.env?.find((i) => i?.name === 'JUPYTER_IMAGE')?.value ?? '';
+  const imageTag = imageStreamTagAndName.toString().split('/').at(-1)?.split(':');
+
   if (!imageTag || imageTag.length < 2) {
     return { image: undefined, tag: undefined };
   }

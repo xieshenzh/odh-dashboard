@@ -32,6 +32,7 @@ import { assemblePodSpecOptions, getshmVolume, getshmVolumeMount } from './utils
 export const assembleNotebook = (
   data: StartNotebookData,
   username: string,
+  dashboardNamespace: string,
   canEnablePipelines?: boolean,
 ): NotebookKind => {
   const {
@@ -50,9 +51,7 @@ export const assembleNotebook = (
     existingResources,
   } = data;
   const notebookId = overrideNotebookId || translateDisplayNameForK8s(notebookName);
-  const imageUrl = `${image.imageStream?.status?.dockerImageRepository}:${image.imageVersion?.name}`;
   const imageSelection = `${image.imageStream?.metadata.name}:${image.imageVersion?.name}`;
-
   const { affinity, tolerations, resources } = assemblePodSpecOptions(
     notebookSize.resources,
     acceleratorProfile,
@@ -109,6 +108,7 @@ export const assembleNotebook = (
         'opendatahub.io/username': username,
         'opendatahub.io/accelerator-name':
           acceleratorProfile.acceleratorProfile?.metadata.name || '',
+        'image.openshift.io/triggers': `[{"from":{"kind":"ImageStreamTag","name":"${imageSelection}", "namespace":"${dashboardNamespace}"},"fieldPath":"spec.template.spec.containers[?(@.name==\\"${notebookId}\\")].image"}]`,
       },
       name: notebookId,
       namespace: projectName,
@@ -120,8 +120,8 @@ export const assembleNotebook = (
           enableServiceLinks: false,
           containers: [
             {
-              image: imageUrl,
-              imagePullPolicy: 'Always',
+              image: notebookId,
+              imagePullPolicy: 'IfNotPresent',
               workingDir: ROOT_MOUNT_PATH,
               name: notebookId,
               env: [
@@ -136,7 +136,7 @@ export const assembleNotebook = (
                 },
                 {
                   name: 'JUPYTER_IMAGE',
-                  value: imageUrl,
+                  value: imageSelection,
                 },
               ],
               envFrom,
@@ -252,9 +252,10 @@ export const startNotebook = async (
 export const createNotebook = (
   data: StartNotebookData,
   username: string,
+  dashboardNamespace: string,
   canEnablePipelines?: boolean,
 ): Promise<NotebookKind> => {
-  const notebook = assembleNotebook(data, username, canEnablePipelines);
+  const notebook = assembleNotebook(data, username, dashboardNamespace, canEnablePipelines);
 
   const notebookPromise = k8sCreateResource<NotebookKind>({
     model: NotebookModel,
@@ -274,10 +275,11 @@ export const updateNotebook = (
   existingNotebook: NotebookKind,
   assignableData: StartNotebookData,
   username: string,
+  dashboardNamespace: string,
   opts?: K8sAPIOptions,
 ): Promise<NotebookKind> => {
   assignableData.notebookId = existingNotebook.metadata.name;
-  const notebook = assembleNotebook(assignableData, username);
+  const notebook = assembleNotebook(assignableData, dashboardNamespace, username);
 
   const oldNotebook = structuredClone(existingNotebook);
   const container = oldNotebook.spec.template.spec.containers[0];

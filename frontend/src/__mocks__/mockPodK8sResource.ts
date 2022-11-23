@@ -156,7 +156,7 @@ export const mockPodK8sResource = ({
           successThreshold: 1,
           failureThreshold: 3,
         },
-        imagePullPolicy: 'Always',
+        imagePullPolicy: 'IfNotPresent',
       },
       {
         name: 'oauth-proxy',
@@ -228,7 +228,7 @@ export const mockPodK8sResource = ({
           successThreshold: 1,
           failureThreshold: 3,
         },
-        imagePullPolicy: 'Always',
+        imagePullPolicy: 'IfNotPresent',
       },
     ],
     restartPolicy: 'Always',
