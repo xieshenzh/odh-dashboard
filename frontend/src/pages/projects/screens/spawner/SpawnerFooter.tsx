@@ -15,8 +15,7 @@ import {
   StartNotebookData,
   StorageData,
 } from '~/pages/projects/types';
-import { useUser } from '~/redux/selectors';
-import { useDashboardNamespace } from '~/redux/selectors';
+import { useUser, useDashboardNamespace } from '~/redux/selectors';
 import { ProjectDetailsContext } from '~/pages/projects/ProjectDetailsContext';
 import { AppContext } from '~/app/AppContext';
 import usePreferredStorageClass from '~/pages/projects/screens/spawner/storage/usePreferredStorageClass';
@@ -180,7 +179,9 @@ const SpawnerFooter: React.FC<SpawnerFooterProps> = ({
           envFrom,
           tolerationSettings,
         };
-        return updateNotebook(editNotebook, newStartNotebookData, username, dashboardNamespace, { dryRun });
+        return updateNotebook(editNotebook, newStartNotebookData, username, dashboardNamespace, {
+          dryRun,
+        });
       };
 
       updateNotebookPromise(true)

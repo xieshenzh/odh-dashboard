@@ -13,6 +13,8 @@ endif
 CONTAINER_BUILDER?=podman
 CONTAINER_DOCKERFILE?=Dockerfile
 
+IMAGE_REPOSITORY=quay.io/xiezhang7/odh-dashboard:main
+
 ##################################
 
 # DEV Convenience
