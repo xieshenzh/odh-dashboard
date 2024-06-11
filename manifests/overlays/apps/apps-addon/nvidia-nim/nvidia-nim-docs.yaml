@@ -1,0 +1,14 @@
+apiVersion: dashboard.opendatahub.io/v1
+kind: OdhDocument
+metadata:
+  name: nvidia-nim-tutorial
+  annotations:
+    opendatahub.io/categories: 'Getting started'
+spec:
+  appName: nvidia-nim
+  type: tutorial
+  displayName: NVIDIA NIM getting started
+  description: |-
+    NVIDIA NIM getting started.
+  url: https://developer.nvidia.com/nim
+  durationMinutes: 5

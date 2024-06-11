@@ -1,0 +1,32 @@
+apiVersion: console.openshift.io/v1
+kind: OdhQuickStart
+metadata:
+  name: nvidia-nim-quickstart
+  annotations:
+    opendatahub.io/categories: 'Getting started'
+spec:
+  displayName: Creating NVIDIA NIM.
+  appName: nvidia-nim
+  durationMinutes: 5
+  icon: 'images/nvidia.svg'
+  description: NVIDIA NIM quickstart
+  prerequisites: []
+  introduction: |-
+    This quick start shows you how to run NVIDIA NIM.
+  tasks:
+    - title: Placeholder
+      description: |-
+        ### Prerequisites
+
+        ### Procedure
+
+      review:
+        instructions: |-
+          Placeholder
+        failedTaskHelp: Placeholder
+      summary:
+        success: Placeholder
+        failed: Placeholder
+  nextQuickStart: []
+  conclusion: >-
+    Congratulations!
