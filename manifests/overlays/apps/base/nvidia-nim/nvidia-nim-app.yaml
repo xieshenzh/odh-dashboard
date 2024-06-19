@@ -19,20 +19,17 @@ spec:
   support: third party support
   docsLink: https://developer.nvidia.com/nim
   quickStart: 'nvidia-nim-quickstart'
-  getStartedLink: ''
+  getStartedLink: 'https://developer.nvidia.com/nim'
   enable:
     title: Enable NVIDIA NIM
     actionLabel: Enable
     description: ''
     variables:
       api_key: password
-      org: text
     variableDisplayText:
       api_key: NGC API Key
-      org: NGC Organization
     variableHelpText:
       api_key: This NGC API key is given to you by NVIDIA
-      org: Your NGC organization
     validationJob: nvidia-nim-periodic-validator
     validationSecret: nvidia-nim-access
     validationConfigMap: nvidia-nim-validation-result
