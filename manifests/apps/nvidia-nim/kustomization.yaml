@@ -7,3 +7,4 @@ resources:
 - nvidia-nim-app.yaml
 - nvidia-nim-quickstart.yaml
 - nvidia-nim-docs.yaml
+- nvidia-nim-validator-cron.yaml

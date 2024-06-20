@@ -5,3 +5,4 @@ commonLabels:
   app.kubernetes.io/part-of: odh-dashboard
 resources:
   - ./jupyter
+  - ./nvidia-nim
