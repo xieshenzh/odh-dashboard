@@ -16,7 +16,7 @@ spec:
   category: Partner managed
   support: third party support
   docsLink: https://developer.nvidia.com/nim
-  quickStart: ''
+  quickStart: 'nvidia-nim-quickstart'
   getStartedLink: 'https://developer.nvidia.com/nim'
   enable:
     title: Enable NVIDIA NIM
